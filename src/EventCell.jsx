@@ -3,6 +3,8 @@ import cn from 'classnames';
 import dates from './utils/dates';
 import { accessor as get } from './utils/accessors';
 
+require('react-tap-event-plugin')();
+
 let EventCell = React.createClass({
   render() {
     let {
@@ -33,6 +35,7 @@ let EventCell = React.createClass({
           'rbc-event-continues-after': continuesAfter
         })}
         onClick={()=> onSelect(event)}
+        onTouchTap={() => onSelect(event)}
       >
         <div className='rbc-event-content' title={title}>
           { Component
