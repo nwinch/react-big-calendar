@@ -22,11 +22,14 @@ class Selection {
 
     this._listeners = Object.create(null);
 
+    this._touchStart = this._touchStart.bind(this)
+    this._touchEnd = this._touchEnd.bind(this)
     this._mouseDown = this._mouseDown.bind(this)
     this._mouseUp = this._mouseUp.bind(this)
     this._openSelector = this._openSelector.bind(this)
     this._keyListener = this._keyListener.bind(this)
 
+    this._onTouchStartListener = addEventListener('touchstart', this._touchStart)
     this._onMouseDownListener = addEventListener('mousedown', this._mouseDown)
     this._onKeyDownListener = addEventListener('keydown', this._keyListener)
     this._onKeyUpListener = addEventListener('keyup', this._keyListener)
@@ -52,6 +55,8 @@ class Selection {
 
   teardown() {
     this.listeners = Object.create(null)
+    this._onTouchStartListener && this._onTouchStartListener.remove()
+    this._onTouchEndListener && this._onTouchEndListener.remove()
     this._onMouseDownListener && this._onMouseDownListener.remove()
     this._onMouseUpListener && this._onMouseUpListener.remove();
     this._onMouseMoveListener && this._onMouseMoveListener.remove();
@@ -124,7 +129,7 @@ class Selection {
 
     var inRoot = !this.container || contains(this.container(), e.target);
     var bounds = this._selectRect;
-    var click = this.isClick(e.pageX, e.pageY);
+    var click = this.isSelect(e.pageX, e.pageY, this._mouseDownData);
 
     this._mouseDownData = null
 
@@ -138,6 +143,60 @@ class Selection {
     // User drag-clicked in the Selectable area
     if(!click)
       return this.emit('select', bounds)
+
+    this.selecting = false;
+  }
+
+  _touchStart (e) {
+    var node = this.container()
+      , collides, offsetData;
+
+    if (!this.globalMouse && node && !contains(node, e.target)) {
+
+      let { top, left, bottom, right } = normalizeDistance(0);
+
+      offsetData = getBoundsForNode(node);
+
+      collides = objectsCollide({
+        top: offsetData.top - top,
+        left: offsetData.left - left,
+        bottom: offsetData.bottom + bottom,
+        right: offsetData.right + right
+      },
+      { top: e.changedTouches[0].pageY, left: e.changedTouches[0].pageX });
+
+      if (!collides) return;
+    }
+
+    this.emit('click', this._touchStartData = {
+      x: e.changedTouches[0].pageX,
+      y: e.changedTouches[0].pageY,
+      clientX: e.changedTouches[0].clientX,
+      clientY: e.changedTouches[0].clientY
+    });
+
+    e.preventDefault();
+
+    this._onTouchEndListener = addEventListener('touchend', this._touchEnd)
+  }
+
+  _touchEnd(e) {
+
+    this._onTouchEndListener && this._onTouchEndListener.remove();
+
+    if (!this._touchStartData) return;
+
+    var inRoot = contains(this.container(), e.target);
+    var click = this.isSelect(e.changedTouches[0].pageX, e.changedTouches[0].pageY, this._touchStartData);
+
+    this._touchStartData = null
+
+    if(click && !inRoot) {
+      return this.emit('reset')
+    }
+
+    if(click && inRoot)
+      return this.emit('click', { x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY })
 
     this.selecting = false;
   }
@@ -157,7 +216,7 @@ class Selection {
       this.emit('selectStart', this._mouseDownData)
     }
 
-    if (!this.isClick(e.pageX, e.pageY))
+    if (!this.isSelect(e.pageX, e.pageY, this._mouseDownData))
       this.emit('selecting', this._selectRect = {
         top,
         left,
@@ -172,8 +231,7 @@ class Selection {
     this.ctrl = (e.metaKey || e.ctrlKey)
   }
 
-  isClick(pageX, pageY){
-    var { x, y } = this._mouseDownData;
+  isSelect(pageX, pageY, { x, y }) {
     return (
       Math.abs(pageX - x) <= clickTolerance &&
       Math.abs(pageY - y) <= clickTolerance
@@ -241,4 +299,5 @@ function pageOffset(dir) {
   if (dir === 'top')
     return (window.pageYOffset || document.body.scrollTop || 0)
 }
+
 export default Selection
