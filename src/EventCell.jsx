@@ -34,8 +34,14 @@ let EventCell = React.createClass({
           'rbc-event-continues-prior': continuesPrior,
           'rbc-event-continues-after': continuesAfter
         })}
-        onClick={()=> onSelect(event)}
-        onTouchTap={() => onSelect(event)}
+        onClick={()=> {
+          console.log('clicked');
+          return onSelect(event);
+        }}
+        onTouchTap={() => {
+          console.log('touched');
+          return onSelect(event);
+        }}
       >
         <div className='rbc-event-content' title={title}>
           { Component
