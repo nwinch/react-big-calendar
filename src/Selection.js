@@ -186,7 +186,7 @@ class Selection {
 
     if (!this._touchStartData) return;
 
-    var inRoot = contains(this.container(), e.target);
+    var inRoot = !this.container || contains(this.container(), e.target);
     var click = this.isSelect(e.changedTouches[0].pageX, e.changedTouches[0].pageY, this._touchStartData);
 
     this._touchStartData = null
