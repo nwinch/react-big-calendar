@@ -35,13 +35,11 @@ let EventCell = React.createClass({
         onTouchTap={(e) => {
           const ev = Object.assign({}, e);
           console.log('touched original', e);
+          console.log(e.preventDefault(), e.stopPropagation());
           console.log('touched', ev);
 
           e.preventDefault();
           e.stopPropagation();
-
-          ev.preventDefault();
-          ev.stopPropagation();
 
           return onSelect(event);
         }}
