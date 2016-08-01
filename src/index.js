@@ -6,13 +6,7 @@ import viewLabel from './utils/viewLabel';
 import move from './utils/move';
 import { views } from './utils/constants';
 
-require('react-tap-event-plugin')({
-  shouldRejectClick: (lastTouchEventTimestamp, clickEventTimestamp) => {
-    console.log(lastTouchEventTimestamp, clickEventTimestamp, clickEventTimestamp - lastTouchEventTimestamp);
-    return true;
-  }
-});
-
+require('react-tap-event-plugin')();
 
 Object.assign(Calendar, {
   setLocalizer,
