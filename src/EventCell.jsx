@@ -33,12 +33,17 @@ let EventCell = React.createClass({
           'rbc-event-continues-after': continuesAfter
         })}
         onTouchTap={(e) => {
-          const event = Object.assign({}, e);
+          const ev = Object.assign({}, e);
           console.log('touched original', e);
-          console.log('touched', event);
-          onSelect(event);
+          console.log('touched', ev);
+
           e.preventDefault();
           e.stopPropagation();
+
+          ev.preventDefault();
+          ev.stopPropagation();
+
+          return onSelect(event);
         }}
       >
         <div className='rbc-event-content' title={title}>
