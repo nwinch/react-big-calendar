@@ -168,7 +168,7 @@ class Selection {
       if (!collides) return;
     }
 
-    this.emit('click', this._touchStartData = {
+    this.emit('touchstart', this._touchStartData = {
       x: e.changedTouches[0].pageX,
       y: e.changedTouches[0].pageY,
       clientX: e.changedTouches[0].clientX,
