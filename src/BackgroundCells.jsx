@@ -90,6 +90,7 @@ class DisplayCells extends React.Component {
     selector
       .on('click', (point, e) => {
         console.log('click stuff', e);
+        if (/rbc\-event\-content/.test(e.target.className)) return;
         let rowBox = getBoundsForNode(node)
 
         if (pointInBox(rowBox, point)) {
