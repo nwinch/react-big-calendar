@@ -32,10 +32,6 @@ let EventCell = React.createClass({
           'rbc-event-continues-prior': continuesPrior,
           'rbc-event-continues-after': continuesAfter
         })}
-        onClick={(e)=> {
-          console.log('clicked', e);
-          return onSelect(event);
-        }}
         onTouchTap={(e) => {
           console.log('touched', e);
           e.preventDefault();

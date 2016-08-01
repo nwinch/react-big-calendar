@@ -6,8 +6,6 @@ import viewLabel from './utils/viewLabel';
 import move from './utils/move';
 import { views } from './utils/constants';
 
-require('react-tap-event-plugin')();
-
 Object.assign(Calendar, {
   setLocalizer,
   globalizeLocalizer,
