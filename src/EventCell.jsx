@@ -23,7 +23,7 @@ let EventCell = React.createClass({
       var { style, className: xClassName } = eventPropGetter(event, start, end, selected);
 
     return (
-      <div
+      <a
         {...props}
         style={{...props.style, ...style}}
         className={cn('rbc-event', className, xClassName, {
@@ -32,6 +32,7 @@ let EventCell = React.createClass({
           'rbc-event-continues-prior': continuesPrior,
           'rbc-event-continues-after': continuesAfter
         })}
+        onClick={e => e.preventDefault()}
         onTouchTap={(e) => {
           const ev = Object.assign({}, e);
           console.log('touched original', e);
@@ -50,7 +51,7 @@ let EventCell = React.createClass({
             : title
           }
         </div>
-      </div>
+      </a>
     );
   }
 });
