@@ -1,4 +1,5 @@
 import React from 'react';
+import Tappable from 'react-tappable';
 import cn from 'classnames';
 import dates from './utils/dates';
 import { accessor as get } from './utils/accessors';
@@ -33,22 +34,24 @@ let EventCell = React.createClass({
           'rbc-event-continues-after': continuesAfter
         })}
       >
-        <a
-          className='rbc-event-content'
-          onClick={e => {
+        <Tappable
+          preventDefault
+          stopPropagation
+          onTap={e => {
             console.log('a clicked', e);
-            e.preventDefault();
-            e.stopPropagation();
+            // e.preventDefault();
+            // e.stopPropagation();
 
             return onSelect(event);
           }}
+          className='rbc-event-content'
           title={title}
         >
           { Component
             ? <Component event={event} title={title}/>
             : title
           }
-        </a>
+        </Tappable>
       </div>
     );
   }
