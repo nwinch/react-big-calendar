@@ -23,7 +23,7 @@ let EventCell = React.createClass({
       var { style, className: xClassName } = eventPropGetter(event, start, end, selected);
 
     return (
-      <a
+      <div
         {...props}
         style={{...props.style, ...style}}
         className={cn('rbc-event', className, xClassName, {
@@ -32,30 +32,30 @@ let EventCell = React.createClass({
           'rbc-event-continues-prior': continuesPrior,
           'rbc-event-continues-after': continuesAfter
         })}
-        onClick={e => {
-          console.log('clicked');
-          e.preventDefault();
-          e.stopPropagation();
-          return false;
-        }}
-        onTouchTap={(e) => {
-          const ev = Object.assign({}, e);
-          console.log('touched original', e);
-          console.log('touched', ev);
-
-          e.preventDefault();
-          e.stopPropagation();
-
-          // return onSelect(event);
-        }}
       >
-        <div className='rbc-event-content' title={title}>
+        <a
+          className='rbc-event-content'
+          onClick={e => {
+            console.log('a clicked', e);
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchTap={e => {
+            const ev = Object.assign({}, e);
+            console.log('touched original', e);
+            console.log('touched', ev);
+            e.preventDefault();
+            e.stopPropagation();
+            // return onSelect(event);
+          }}
+          title={title}
+        >
           { Component
             ? <Component event={event} title={title}/>
             : title
           }
-        </div>
-      </a>
+        </a>
+      </div>
     );
   }
 });
