@@ -41,7 +41,7 @@ let EventCell = React.createClass({
           e.preventDefault();
           e.stopPropagation();
 
-          return onSelect(event);
+          // return onSelect(event);
         }}
       >
         <div className='rbc-event-content' title={title}>
