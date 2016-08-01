@@ -36,9 +36,9 @@ let EventCell = React.createClass({
           const event = Object.assign({}, e);
           console.log('touched original', e);
           console.log('touched', event);
+          onSelect(event);
           e.preventDefault();
           e.stopPropagation();
-          return onSelect(event);
         }}
       >
         <div className='rbc-event-content' title={title}>
