@@ -33,8 +33,14 @@ let EventCell = React.createClass({
           'rbc-event-continues-after': continuesAfter
         })}
         onTouchTap={(e) => {
-          console.log('touched', Object.assign({}, e));
+          const event = Object.assign({}, e);
+          console.log('touched', event);
+          console.log(event.preventDefault());
+          console.log(event.stopPropagation());
           e.preventDefault();
+          e.stopPropagation();
+          event.preventDefault();
+          event.stopPropagation();
           return onSelect(event);
         }}
       >
