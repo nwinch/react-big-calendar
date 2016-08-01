@@ -37,13 +37,7 @@ let EventCell = React.createClass({
         <Tappable
           preventDefault
           stopPropagation
-          onTap={e => {
-            console.log('a clicked', e);
-            // e.preventDefault();
-            // e.stopPropagation();
-
-            return onSelect(event);
-          }}
+          onTap={() => onSelect(event)}
           className='rbc-event-content'
           title={title}
         >
