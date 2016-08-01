@@ -88,7 +88,8 @@ class DisplayCells extends React.Component {
     })
 
     selector
-      .on('click', point => {
+      .on('click', (point, e) => {
+        console.log('click stuff', e);
         let rowBox = getBoundsForNode(node)
 
         if (pointInBox(rowBox, point)) {

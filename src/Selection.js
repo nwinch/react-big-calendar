@@ -196,7 +196,7 @@ class Selection {
     }
 
     if(click && inRoot)
-      return this.emit('click', { x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY })
+      return this.emit('click', { x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY }, e)
 
     this.selecting = false;
   }
