@@ -38,6 +38,7 @@ let EventCell = React.createClass({
         }}
         onTouchTap={(e) => {
           console.log('touched', e);
+          e.preventDefault();
           return onSelect(event);
         }}
       >
